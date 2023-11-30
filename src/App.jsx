@@ -1,10 +1,12 @@
 import "./App.css";
 
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { FiSend } from "react-icons/fi";
 
 import UseForm from "./components/UseForm";
 import ReviewForm from "./components/ReviewForm";
 import Thanks from "./components/Thanks";
+import Steps from "./components/Steps";
 
 import { useForm } from "./hooks/useForm";
 
@@ -14,7 +16,8 @@ function App() {
     { component: <ReviewForm />, key: "reviewForm" },
     { component: <Thanks />, key: "thanks" },
   ];
-  const { currentStep, currentComponent, changeStep } = useForm(formComponents);
+  const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
+    useForm(formComponents);
 
   return (
     <div className="app">
@@ -26,18 +29,27 @@ function App() {
         </p>
       </div>
       <div className="form_container">
-        <p>Steps</p>
+        <Steps currentStep={currentStep} />
         <form onSubmit={(e) => changeStep(currentStep + 1, e)}>
           <div className="inputs_container">{currentComponent}</div>
           <div className="actions">
-            <button type="button" onClick={() => changeStep(currentStep - 1)}>
-              <GrFormPrevious />
-              <span>back</span>
-            </button>
-            <button type="submit">
-              <span>advance</span>
-              <GrFormNext />
-            </button>
+            {!isFirstStep && (
+              <button type="button" onClick={() => changeStep(currentStep - 1)}>
+                <GrFormPrevious />
+                <span>back</span>
+              </button>
+            )}
+            {isLastStep ? (
+              <button type="submit">
+                <span>advance</span>
+                <GrFormNext />
+              </button>
+            ) : (
+              <button type="button">
+                <span>send</span>
+                <FiSend />
+              </button>
+            )}
           </div>
         </form>
       </div>
