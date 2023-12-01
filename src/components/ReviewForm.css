@@ -30,7 +30,7 @@
     left: 30px;
 }
 
-.radio_container p {
+.radio_container span {
     font-weight: italic;
     font-weight: 300;
     font-size: .7rem;
